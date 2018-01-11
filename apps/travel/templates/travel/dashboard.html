@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <title>Travel Buddy</title>
+</head>
+
+<body>
+    <div class="container container-fluid">
+        <div class="row">
+            <h1>Welcome, {{ user.name }}!</h1>
+        </div>
+        <div class="row">
+            <h4>Your Scheduled Trips:</h4>
+        </div>
+        <div class="row">
+            {% if not trips_created and not trips_joined %}
+                <h3 class="display-4">You have not created or joined any trips yet!</h3>
+            {% endif %}
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Destination</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Plan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if trips_created %}
+                    {% for trip in trips_created %}
+                    <tr>
+                        <td><a href="/travels/destination/{{ trip.id }}">{{ trip.destination }}</a></td>
+                        <td>{{ trip.start_date }}</td>
+                        <td>{{ trip.end_date }}</td>
+                        <td>{{ trip.description }}</td>
+                        <td><form action="/travels/destination/{{ trip.id }}/destroy" method="POST">{% csrf_token %} <button type="submit" class="btn btn-outline-primary">Delete</button></form></td>
+                    </tr>
+                    {% endfor %}
+            {% endif %}
+                {% if trips_joined %}
+                    {%  for trip in trips_joined %}
+                    <tr>
+                        <td><a href="/travels/destination/{{ trip.id }}">{{ trip.destination }}</a></td>
+                        <td>{{ trip.start_date }}</td>
+                        <td>{{ trip.end_date }}</td>
+                        <td>{{ trip.description }}</td>
+                        <td><form action="/travels/destination/{{ trip.id }}/leave" method="POST">{% csrf_token %} <button type="submit" class="btn btn-outline-primary">Leave</button></form></td>
+                    </tr>
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <h4>Other Scheduled Trips:</h4>
+        </div>
+        <div class="row">
+
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Destination</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for trip in other_trips %}
+                    <tr>
+                        <td>{{ trip.creator.name }}</td>
+                        <td><a href="/travels/destination/{{ trip.id }}">{{ trip.destination }}</a></td>
+                        <td>{{ trip.start_date }}</td>
+                        <td>{{ trip.end_date }}</td>
+                        <td><a href="/travels/destination/{{ trip.id }}/join">Join</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <hr>
+        <div class="row">
+            <nav class="nav navbar-expand-lg navbar-light">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/travels">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/travels/add">Add Trip</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>

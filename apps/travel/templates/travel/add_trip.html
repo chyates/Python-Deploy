@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <title>Travel Buddy</title>
+</head>
+
+<body>
+    <div class="container container-fluid">
+        <div id="add-trip-form" class="col-md">
+            <h2>Add a Trip</h2>
+            <form action="/travels/create" method="POST">
+                {% csrf_token %}
+                <div class="form-group-row">
+                    <label for="destination" class="col-md col-form-label">Destination:</label>
+                    <div class="col-md">
+                        <input class="form-control" type="text" name="destination" placeholder="Enter your destination">
+                        <br>
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <label for="start_date" class="col-md col-form-label">Start Date:</label>
+                    <div class="col-md">
+                        <input class="form-control" type="date" name="start_date" placeholder="Enter a start date">
+                        <br>
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <label for="end_date" class="col-md col-form-label">End Date:</label>
+                    <div class="col-md">
+                        <input class="form-control" type="date" name="end_date" placeholder="Enter an end date">
+                        <br>
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <label for="description" class="col-md col-form-label">Description</label>
+                    <div class="col-md">
+                        <textarea class="form-control" name="description" cols="50" rows="7" placeholder="Enter a description"></textarea>
+                        <input type="hidden" name="current_user" value={{ user.id }}>
+                        <br>
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <div class="offset-md col-md">
+                        <input type="submit" class="btn btn-outline-primary" value="Add trip">
+                    </div>
+                </div>
+            </form>
+        </div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <hr>
+        <div class="row">
+            <nav class="nav navbar-expand-lg navbar-light">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/travels">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/travels/add">Add Trip</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>

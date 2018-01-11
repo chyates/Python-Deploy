@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <title>Travel Buddy</title>
+</head>
+
+<body>
+    <div class="container container-fluid">
+        <div class="row">
+            <h2>{{ trip.destination }}</h2>
+        </div>
+        <div class="row">
+            <dl class="row">
+                <dt class="col-md-3">Creator:</dt>
+                <dd class="col-md-9">{{ trip.creator.name }}</dd>
+
+                <dt class="col-md-3">Start Date:</dt>
+                <dd class="col-md-9">{{ trip.start_date }}</dd>
+
+                <dt class="col-md-3">End Date:</dt>
+                <dd class="col-md-9">{{ trip.end_date }}</dd>
+
+                <dt class="col-md-3">Description:</dt>
+                <dd class="col-md-9">{{ trip.description }}</dd>
+            </dl>
+        </div>
+        <div class="row">
+            <h4>Travelers:</h4>
+        </div>
+            {% if travelers %} 
+                {% for traveler in travelers %}
+                <div class="row">
+                    <p>{{ traveler.name }}</p>
+                </div>
+                {% endfor %}
+                <div class="row">
+                {% if user not in travelers %}
+                    <a href="/travels/destination/{{ trip.id }}/join"><button type="button" class="btn btn-outline-primary">Would you like to join?</button></a>
+                {% endif %}
+                    </div> 
+            {% endif %}
+        {% if not travelers %}
+            <div class="row">
+                <p>No one has joined this trip yet!</p>
+            </div>
+            {% if trip.creator.id != user.id %}
+                <div class="row">
+                    <a href="/travels/destination/{{ trip.id }}/join"><button type="button" class="btn btn-outline-primary">Would you like to join?</button></a>
+                </div>
+            {% endif %}
+        {% endif %}
+        <hr>
+        <div class="row">
+            <nav class="nav navbar-expand-lg navbar-light">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/travels">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/travels/add">Add Trip</a>
+                    </li>
+                    <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</body>
