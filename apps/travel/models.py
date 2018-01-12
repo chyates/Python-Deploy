@@ -57,8 +57,8 @@ class TripManager(models.Manager):
             errors.append("End date required")
             date_errors.append("End date required")
             
-        current_date = datetime.now()
         if not date_errors:
+            current_date = datetime.now()
             start_date = datetime.strptime(postData['start_date'], "%Y-%m-%d")
             end_date = datetime.strptime(postData['end_date'], "%Y-%m-%d")
 
@@ -67,7 +67,7 @@ class TripManager(models.Manager):
             if start_date < current_date:
                 errors.append("Start date cannot fall before the current date")
 
-        if not errors or not date_errors:
+        if not errors and not date_errors:
             new_trip = self.create(
                 destination=postData['destination'],
                 start_date=start_date,
